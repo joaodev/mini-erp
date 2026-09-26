@@ -29,7 +29,7 @@ public class CustomerService {
     public CustomerResponse create(CustomerRequest request) {
         String document = DocumentUtils.normalize(request.getDocument());
         if (repository.existsByDocument(document)) {
-            throw new DuplicateResourceException(document);
+            throw new DuplicateResourceException("Customer already exists with document " + document);
         }
         Customer saved = repository.save(mapper.toEntity(request, document));
         return mapper.toResponse(saved);
@@ -50,7 +50,7 @@ public class CustomerService {
         Customer customer = getOrThrow(id);
         String document = DocumentUtils.normalize(request.getDocument());
         if (!customer.getDocument().equals(document) && repository.existsByDocument(document)) {
-            throw new DuplicateResourceException(document);
+            throw new DuplicateResourceException("Customer already exists with document " + document);
         }
         mapper.updateEntity(customer, request, document);
         return mapper.toResponse(repository.saveAndFlush(customer));
@@ -63,6 +63,6 @@ public class CustomerService {
 
     private Customer getOrThrow(UUID id) {
         return repository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(id));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id " + id));
     }
 }
