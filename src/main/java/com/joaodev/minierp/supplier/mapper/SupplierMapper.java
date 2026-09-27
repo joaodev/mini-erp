@@ -1,5 +1,6 @@
 package com.joaodev.minierp.supplier.mapper;
 
+import com.joaodev.minierp.common.mapper.PartyMapper;
 import com.joaodev.minierp.supplier.dto.SupplierRequest;
 import com.joaodev.minierp.supplier.dto.SupplierResponse;
 import com.joaodev.minierp.supplier.entity.Supplier;
@@ -29,15 +30,6 @@ public class SupplierMapper {
     }
 
     public SupplierResponse toResponse(Supplier supplier) {
-        SupplierResponse response = new SupplierResponse();
-        response.setId(supplier.getId());
-        response.setName(supplier.getName());
-        response.setDocument(supplier.getDocument());
-        response.setEmail(supplier.getEmail());
-        response.setPhone(supplier.getPhone());
-        response.setActive(supplier.isActive());
-        response.setCreatedAt(supplier.getCreatedAt());
-        response.setUpdatedAt(supplier.getUpdatedAt());
-        return response;
+        return PartyMapper.toResponse(supplier, SupplierResponse::new);
     }
 }

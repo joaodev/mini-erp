@@ -4,7 +4,7 @@ public final class DocumentUtils {
     private DocumentUtils() {}
 
     public static String normalize(String value) {
-        return value == null ? null : value.replaceAll("[^0-9A-Za-z]]", "").toUpperCase();
+        return value == null ? null : value.replaceAll("[^0-9A-Za-z]", "").toUpperCase();
     }
 
     public static boolean isValid(String value) {
@@ -30,7 +30,7 @@ public final class DocumentUtils {
     }
 
     private static boolean isValidCnpj(String document) {
-        if (!document.matches("[0-9A-Z]{12}\\\\d{2}") || allSameChars(document)) {
+        if (!document.matches("[0-9A-Z]{12}\\d{2}") || allSameChars(document)) {
             return false;
         }
         return cnpjDigit(document, 12) == document.charAt(12) - '0'

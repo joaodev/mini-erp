@@ -1,10 +1,12 @@
 package com.joaodev.minierp.common.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiError {
     private final LocalDateTime timestamp = LocalDateTime.now();
@@ -18,25 +20,5 @@ public class ApiError {
         this.error = error;
         this.message = message;
         this.fieldErrors = fieldErrors;
-    }
-
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public String getError() {
-        return error;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public Map<String, String> getFieldErrors() {
-        return fieldErrors;
     }
 }

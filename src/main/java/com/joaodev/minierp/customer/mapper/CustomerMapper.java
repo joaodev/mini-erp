@@ -1,5 +1,6 @@
 package com.joaodev.minierp.customer.mapper;
 
+import com.joaodev.minierp.common.mapper.PartyMapper;
 import com.joaodev.minierp.customer.dto.CustomerRequest;
 import com.joaodev.minierp.customer.dto.CustomerResponse;
 import com.joaodev.minierp.customer.entity.Customer;
@@ -28,14 +29,6 @@ public class CustomerMapper {
     }
 
     public CustomerResponse toResponse(Customer customer) {
-        CustomerResponse response = new CustomerResponse();
-        response.setId(customer.getId());
-        response.setName(customer.getName());
-        response.setEmail(customer.getEmail());
-        response.setPhone(customer.getPhone());
-        response.setActive(customer.isActive());
-        response.setCreatedAt(customer.getCreatedAt());
-        response.setUpdatedAt(customer.getUpdatedAt());
-        return response;
+        return PartyMapper.toResponse(customer, CustomerResponse::new);
     }
 }
