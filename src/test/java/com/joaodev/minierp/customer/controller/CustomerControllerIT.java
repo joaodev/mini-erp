@@ -16,7 +16,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
 public class CustomerControllerIT extends AbstractIntegrationTest {
 
     private static final String BASE_URL = "/api/v1/customers";

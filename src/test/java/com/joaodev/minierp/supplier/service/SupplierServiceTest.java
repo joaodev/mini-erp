@@ -76,7 +76,7 @@ public class SupplierServiceTest {
     @Test
     void shouldFindSupplierById() {
         UUID id = UUID.randomUUID();
-        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd", CNPJ)));
+        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd")));
 
         SupplierResponse response = service.findById(id);
 
@@ -97,8 +97,8 @@ public class SupplierServiceTest {
     void shouldListSuppliersWithPagination() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Supplier> page = new PageImpl<>(Arrays.asList(
-                supplier(UUID.randomUUID(), "Alpha", CNPJ),
-                supplier(UUID.randomUUID(), "Beta", CNPJ)), pageable, 2);
+                supplier(UUID.randomUUID(), "Alpha"),
+                supplier(UUID.randomUUID(), "Beta")), pageable, 2);
         when(repository.findAll(pageable)).thenReturn(page);
 
         Page<SupplierResponse> result = service.findAll(pageable);
@@ -111,7 +111,7 @@ public class SupplierServiceTest {
     @Test
     void shouldUpdateSupplierAndCheckNewDocument() {
         UUID id = UUID.randomUUID();
-        Supplier existing = supplier(id, "Old Name", CNPJ);
+        Supplier existing = supplier(id, "Old Name");
         when(repository.findById(id)).thenReturn(Optional.of(existing));
         when(repository.existsByDocument(CPF)).thenReturn(false);
         when(repository.saveAndFlush(any(Supplier.class))).then(returnsFirstArg());
@@ -125,7 +125,7 @@ public class SupplierServiceTest {
     @Test
     void shouldNotCheckDuplicateWhenDocumentDidNotChange() {
         UUID id = UUID.randomUUID();
-        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd", CNPJ)));
+        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd")));
         when(repository.saveAndFlush(any(Supplier.class))).then(returnsFirstArg());
 
         service.update(id, request("Global Parts Updated", "11.222.333/0001-81"));
@@ -136,7 +136,7 @@ public class SupplierServiceTest {
     @Test
     void shouldNotUpdateWhenNewDocumentBelongsToAnotherSupplier() {
         UUID id = UUID.randomUUID();
-        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd", CNPJ)));
+        when(repository.findById(id)).thenReturn(Optional.of(supplier(id, "Global Parts Ltd")));
         when(repository.existsByDocument(CPF)).thenReturn(true);
 
         assertThatThrownBy(() -> service.update(id, request("Global Parts Ltd", CPF)))
@@ -148,7 +148,7 @@ public class SupplierServiceTest {
     @Test
     void shouldKeepActiveFlagWhenNotInformatedOnUpdate() {
         UUID id = UUID.randomUUID();
-        Supplier existing = supplier(id, "Global Parts Ltd", CNPJ);
+        Supplier existing = supplier(id, "Global Parts Ltd");
         existing.setActive(false);
         when(repository.findById(id)).thenReturn(Optional.of(existing));
         when(repository.saveAndFlush(any(Supplier.class))).then(returnsFirstArg());
@@ -170,7 +170,7 @@ public class SupplierServiceTest {
     @Test
     void shouldDeleteExistingSupplier() {
         UUID id = UUID.randomUUID();
-        Supplier existing = supplier(id, "Global Parts Ltd", CNPJ);
+        Supplier existing = supplier(id, "Global Parts Ltd");
         when(repository.findById(id)).thenReturn(Optional.of(existing));
 
         service.delete(id);
@@ -196,11 +196,11 @@ public class SupplierServiceTest {
         return request;
     }
 
-    private Supplier supplier(UUID id, String name, String document) {
+    private Supplier supplier(UUID id, String name) {
         Supplier supplier = new Supplier();
         ReflectionTestUtils.setField(supplier, "id", id);
         supplier.setName(name);
-        supplier.setDocument(document);
+        supplier.setDocument(SupplierServiceTest.CNPJ);
         supplier.setActive(true);
         return supplier;
     }

@@ -10,13 +10,8 @@ import java.util.UUID;
 
 @MappedSuperclass
 @Getter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public abstract class Party {
-    @Id
-    @GeneratedValue
-    @Column(nullable = false, updatable = false)
-    private UUID id;
-
+@EqualsAndHashCode(callSuper = false, onlyExplicitlyIncluded = true)
+public abstract class Party extends AuditableEntity {
     @Setter
     @EqualsAndHashCode.Include
     @Column(nullable = false, length = 150)
@@ -38,29 +33,4 @@ public abstract class Party {
     @Setter
     @Column(nullable = false)
     private boolean active = true;
-
-    @Version
-    @Column(nullable = false)
-    private Long version;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
-    @PrePersist
-    public void onCreate() {
-        LocalDateTime now = LocalDateTime.now();
-        this.createdAt = now;
-        this.updatedAt = now;
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }
