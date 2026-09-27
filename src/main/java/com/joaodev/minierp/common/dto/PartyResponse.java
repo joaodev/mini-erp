@@ -15,6 +15,7 @@ public abstract class PartyResponse {
     private String email;
     private String phone;
     private boolean active;
+    private Long version;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

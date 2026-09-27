@@ -39,6 +39,10 @@ public abstract class Party {
     @Column(nullable = false)
     private boolean active = true;
 
+    @Version
+    @Column(nullable = false)
+    private Long version;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

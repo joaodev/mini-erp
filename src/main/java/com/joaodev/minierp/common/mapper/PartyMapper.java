@@ -17,6 +17,7 @@ public final class PartyMapper {
         response.setEmail(party.getEmail());
         response.setPhone(party.getPhone());
         response.setActive(party.isActive());
+        response.setVersion(party.getVersion());
         response.setCreatedAt(party.getCreatedAt());
         response.setUpdatedAt(party.getUpdatedAt());
         return response;

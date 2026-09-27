@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customer")
-@SQLDelete(sql = "UPDATE customer SET deleted_at = NOW(), updated_at = NOW() WHERE id = ?")
+@SQLDelete(sql = "UPDATE customer SET deleted_at = NOW(), updated_at = NOW(), version = version + 1 WHERE id = ? AND version = ?")
 @Where(clause = "deleted_at IS NULL")
 public class Customer extends Party {
 }
