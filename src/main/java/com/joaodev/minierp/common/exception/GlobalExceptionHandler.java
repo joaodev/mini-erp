@@ -43,6 +43,11 @@ public class GlobalExceptionHandler {
         return build(HttpStatus.BAD_REQUEST, "Validation failed", fieldErrors);
     }
 
+    @ExceptionHandler(InvalidOrderStateException.class)
+    public ResponseEntity<ApiError> handleInvalidOrderStateException(InvalidOrderStateException ex) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), null);
+    }
+
     private ResponseEntity<ApiError> build(HttpStatus status, String message, Map<String, String> fieldErrors) {
         ApiError error = new ApiError(status.value(), status.getReasonPhrase(), message, fieldErrors);
         return ResponseEntity.status(status).body(error);

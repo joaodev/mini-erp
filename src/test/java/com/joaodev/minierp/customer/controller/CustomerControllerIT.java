@@ -3,7 +3,6 @@ package com.joaodev.minierp.customer.controller;
 import com.joaodev.minierp.support.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 
 import java.util.HashMap;
@@ -24,7 +23,7 @@ public class CustomerControllerIT extends AbstractIntegrationTest {
 
     @BeforeEach
     void cleanDatabase() {
-        jdbcTemplate.execute("TRUNCATE TABLE customer");
+        jdbcTemplate.execute("TRUNCATE TABLE order_item, orders, customer CASCADE ");
     }
 
     @Test
